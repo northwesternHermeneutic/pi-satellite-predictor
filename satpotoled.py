@@ -88,6 +88,7 @@ while True:
             draw.text((0, 30), f"Overhead in: {time_until}", fill="white")
             draw.text((0, 40), f"For: {time_until2}", fill="white")
         except (NameError, IndexError):
+            draw.rectangle((0, 10, 128, 54), outline="black", fill="black")
             draw.text((0, 10), "No Data", fill="white")
             pass
 
