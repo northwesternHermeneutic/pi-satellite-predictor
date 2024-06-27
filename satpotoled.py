@@ -29,7 +29,16 @@ def values(input):
         value = read_ads7830(input)
         sleep(0.5)
         return(value)
-
+#initialize Orbital outside of loop to avoid 403 error
+satdict = {
+    "ISS (ZARYA)": Orbital("ISS (ZARYA)"), 
+    "NOAA-15": Orbital("NOAA-15"), 
+    "NOAA-18": Orbital("NOAA-18"), 
+    "NOAA-19": Orbital("NOAA-19"), 
+    "METEOR-M2 2": Orbital("METEOR-M2 2"), 
+    "METEOR-M2 3": Orbital("METEOR-M2 3"), 
+    "METEOR-M2 4": Orbital("METEOR-M2 4")
+    }
 #main loop
 while True:
     with canvas(device) as draw:
@@ -52,9 +61,8 @@ while True:
     long = g.latlng[1]
     alt = float(10)
 
-#get satellite and TLE data
-    sat1 = satval
-    sat = Orbital(sat1)
+#get satellite and TLE data from dict for selected satellite
+    sat = satdict[satval]
 
 
     now = datetime.now(timezone.utc)
@@ -74,7 +82,7 @@ while True:
     with canvas(device) as draw:
         try:
             draw.rectangle((0, 0, 128, 64), outline="black", fill="black")
-            draw.text((0, 0), f"Satellite: {sat1}", fill="white")
+            draw.text((0, 0), f"Satellite: {satval}", fill="white")
             draw.text((0, 10), f"Next Pass: {p_next_pass}", fill="white")
             draw.text((0, 20), f"Until: {p_second_pass}", fill="white")
             draw.text((0, 30), f"Overhead in: {time_until}", fill="white")
